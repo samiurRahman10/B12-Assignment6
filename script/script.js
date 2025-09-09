@@ -1,3 +1,4 @@
+let cartArray = [];
 // Common Functions
 const change = (id) => {
     const all = document.querySelectorAll('.categoryCardStyle');
@@ -55,7 +56,7 @@ const displayPlantCategoryWise = (plants) => {
                         <button class="btn rounded-3xl bg-[#DCFCE7] text-[#15803D]">${p.category}</button>
                         <p class="font-bold"><i class="fa-solid fa-bangladeshi-taka-sign"></i>${p.price}</p>
                     </div>
-                    <button class="btn btn-active btn-success w-full bg-[#15803D] rounded-3xl text-white">Add to Cart</button>
+                    <button onclick="addToCartFun(${p.id})" id="addToCart${p.id}" class="btn btn-active btn-success w-full bg-[#15803D] rounded-3xl text-white">Add to Cart</button>
                 </div>`
         parent.appendChild(div);
 
@@ -85,7 +86,7 @@ const displayAllPlantCategoryWise = (plants) => {
                         <button class="btn rounded-3xl bg-[#DCFCE7] text-[#15803D]">${p.category}</button>
                         <p class="font-bold"><i class="fa-solid fa-bangladeshi-taka-sign"></i>${p.price}</p>
                     </div>
-                    <button class="btn btn-active btn-success w-full bg-[#15803D] rounded-3xl text-white">Add to Cart</button>
+                    <button onclick="addToCartFun(${p.id})" id="addToCart${p.id}" class="btn btn-active btn-success w-full bg-[#15803D] rounded-3xl text-white">Add to Cart</button>
                 </div>`
         parent.appendChild(div);
 
@@ -117,4 +118,43 @@ const displayPlantDetails = (p) => {
    `
     parent.appendChild(child);
     document.getElementById('my_modal_1').showModal()
+}
+//05 Add to Cart Functionality
+const addToCartFun = (id) => {
+    const url = `https://openapi.programming-hero.com/api/plant/${id}`;
+    fetch(url)
+        .then(r => r.json())
+        .then(d => {
+            cartArray.push(
+                {
+                    name: d.plants.name,
+                    price: d.plants.price
+                });
+            displayAddToCart(cartArray);
+        }
+        )
+}
+const displayAddToCart = (array) => {
+    const parent = document.getElementById('cartContainer');
+    parent.innerHTML = "";
+    let totalMoney = 0
+        array.forEach(a => {
+            const child = document.createElement('div');
+            child.innerHTML = `
+        <div class="flex justify-between items-center bg-[#F0FDF4] p-2 mb-2">
+                        <div>
+                            <h1 class="font-medium">${a.name}</h1>
+                            <h1 class="text-gray-500"><i class="fa-solid fa-bangladeshi-taka-sign"></i>${a.price}</h1>
+                        </div>
+                        <button class="text-gray-500 bg-[#F0FDF4] "><i class="fa-solid fa-xmark"></i></button>
+                    </div>`
+            totalMoney = totalMoney+a.price;
+            parent.appendChild(child);
+        }
+        )
+       const child2 = document.createElement('h1');
+       child2.innerHTML=`<div class="flex justify-end">
+       <h1 class="font-bold">Total:<i class="fa-solid fa-bangladeshi-taka-sign"></i> ${totalMoney}</h1>
+       </div>`
+       parent.appendChild(child2);
 }
