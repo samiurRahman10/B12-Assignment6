@@ -4,6 +4,16 @@ const change = (id) => {
     all.forEach(a => a.classList.remove('categoryCardStyle'));
     document.getElementById(`category_btn_${id}`).classList.add('categoryCardStyle');
 }
+const loading = (status) => {
+    if (status == true) {
+        document.getElementById('category-wise-plants').classList.add('hidden');
+        document.getElementById('loading').classList.remove('hidden');
+    }
+    else {
+        document.getElementById('category-wise-plants').classList.remove('hidden');
+        document.getElementById('loading').classList.add('hidden');
+    }
+}
 //1 Load And Display Category
 const loadCategory = () => {
     const url = `https://openapi.programming-hero.com/api/categories`;
@@ -18,7 +28,6 @@ const displayCategory = (categories) => {
         const child = document.createElement('div');
         child.innerHTML = `<button id="category_btn_${c.id}" class="w-full hover:bg-[#15803D] rounded-xl p-1 hover:text-white" onclick="showPlantCategoryWise(${c.id});change(${c.id})">${c.category_name}</button>`
         parent.appendChild(child);
-
     }
     )
 }
@@ -30,6 +39,7 @@ const showPlantCategoryWise = (id) => {
     fetch(url)
         .then(r => r.json())
         .then(d => displayPlantCategoryWise(d.plants))
+    loading(true);
 }
 
 const displayPlantCategoryWise = (plants) => {
@@ -51,6 +61,7 @@ const displayPlantCategoryWise = (plants) => {
 
     }
     )
+    loading(false);
 }
 
 //3 Load All Plants  Display
@@ -104,6 +115,6 @@ const displayPlantDetails = (p) => {
                     <p class="h-28">${p.description}</p>
                 </div>
    `
-   parent.appendChild(child);
-   document.getElementById('my_modal_1').showModal()
+    parent.appendChild(child);
+    document.getElementById('my_modal_1').showModal()
 }
