@@ -138,23 +138,31 @@ const displayAddToCart = (array) => {
     const parent = document.getElementById('cartContainer');
     parent.innerHTML = "";
     let totalMoney = 0
-        array.forEach(a => {
-            const child = document.createElement('div');
-            child.innerHTML = `
+    array.forEach((a, index) => {
+        const child = document.createElement('div');
+        child.innerHTML = `
         <div class="flex justify-between items-center bg-[#F0FDF4] p-2 mb-2">
                         <div>
                             <h1 class="font-medium">${a.name}</h1>
                             <h1 class="text-gray-500"><i class="fa-solid fa-bangladeshi-taka-sign"></i>${a.price}</h1>
                         </div>
-                        <button class="text-gray-500 bg-[#F0FDF4] "><i class="fa-solid fa-xmark"></i></button>
+                        <button onclick="deleteFromCart(${index})" class="text-gray-500 bg-[#F0FDF4] "><i class="fa-solid fa-xmark"></i></button>
                     </div>`
-            totalMoney = totalMoney+a.price;
-            parent.appendChild(child);
-        }
-        )
-       const child2 = document.createElement('h1');
-       child2.innerHTML=`<div class="flex justify-end">
+        console.log(a);
+        totalMoney = totalMoney + a.price;
+        parent.appendChild(child);
+    }
+    )
+    if (totalMoney > 0) {
+        const child2 = document.createElement('h1');
+        child2.innerHTML = `<div class="flex justify-end">
        <h1 class="font-bold">Total:<i class="fa-solid fa-bangladeshi-taka-sign"></i> ${totalMoney}</h1>
        </div>`
-       parent.appendChild(child2);
+        parent.appendChild(child2);
+    }
+}
+// Delete From Cart
+function deleteFromCart(index) {
+    cartArray.splice(index, 1);
+    displayAddToCart(cartArray);
 }
