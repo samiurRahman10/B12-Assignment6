@@ -56,7 +56,7 @@ const displayPlantCategoryWise = (plants) => {
                         <button class="btn rounded-3xl bg-[#DCFCE7] text-[#15803D]">${p.category}</button>
                         <p class="font-bold"><i class="fa-solid fa-bangladeshi-taka-sign"></i>${p.price}</p>
                     </div>
-                    <button onclick="addToCartFun(${p.id})" id="addToCart${p.id}" class="btn btn-active btn-success w-full bg-[#15803D] rounded-3xl text-white">Add to Cart</button>
+                    <button onclick="addToCartFun(${p.id});showAlert('${p.name}')" id="addToCart${p.id}" class="btn btn-active btn-success w-full bg-[#15803D] rounded-3xl text-white">Add to Cart</button>
                 </div>`
         parent.appendChild(div);
 
@@ -86,7 +86,7 @@ const displayAllPlantCategoryWise = (plants) => {
                         <button class="btn rounded-3xl bg-[#DCFCE7] text-[#15803D]">${p.category}</button>
                         <p class="font-bold"><i class="fa-solid fa-bangladeshi-taka-sign"></i>${p.price}</p>
                     </div>
-                    <button onclick="addToCartFun(${p.id})" id="addToCart${p.id}" class="btn btn-active btn-success w-full bg-[#15803D] rounded-3xl text-white">Add to Cart</button>
+                    <button onclick="addToCartFun(${p.id});showAlert('${p.name}')" id="addToCart${p.id}" class="btn btn-active btn-success w-full bg-[#15803D] rounded-3xl text-white">Add to Cart</button>
                 </div>`
         parent.appendChild(div);
 
@@ -162,7 +162,12 @@ const displayAddToCart = (array) => {
     }
 }
 // Delete From Cart
-function deleteFromCart(index) {
+const deleteFromCart = (index)=> {
     cartArray.splice(index, 1);
     displayAddToCart(cartArray);
+}
+// Show alert
+const showAlert=(name)=>
+{
+    alert(`${name} added to the cart`);
 }
